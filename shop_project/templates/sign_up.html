@@ -79,7 +79,10 @@
             type: 'post',
             data: form.serialize(),
             error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
-            success: function(){ alert("SUCCESS!")}
+            success: function() { // on success..
+                $('#success_div').append('Welcome back! :)'); // update the DIV
+                $('#success_div').toggleClass('alert alert-success'); // unhide
+            },
         })
  })
 </script>

@@ -1,4 +1,4 @@
-from .forms import UserCreationForm
+from .forms import UserCreationForm, UserAuthenticationForm
 from .models import Item, CustomUser
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, reverse, render
@@ -35,10 +35,16 @@ class SignUpView(FormView):
         # If form not saved, return form
         return render(self.get_success_url(), {'form': form})
 
+    def get_success_url(self):
+        return reverse('item_list')
+
+
+class SignInView(FormView):
+    template_name = 'sign_in.html'
+    form_class = UserAuthenticationForm
 
     def get_success_url(self):
-        print(self.request.path)
-        return self.request.path
+        return reverse('item_list')
 
 
 @login_required
@@ -47,6 +53,4 @@ def add_to_cart(request, **kwargs):
     user_profile = get_object_or_404(CustomUser, user=request.user)
 
     item = Item.objects.filter(id=kwargs.get('pk', None)).first()
-
-
     return redirect(reverse('item_list'))

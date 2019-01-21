@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm
 
 
 class UserCreationForm(forms.ModelForm):
@@ -9,6 +10,7 @@ class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput,
                                 help_text="Enter the same password as above, for verification.")
+    username = forms.CharField(widget=forms.TextInput(attrs={'id': 'username1'}))
     class Meta:
         model = get_user_model()
         fields = [
@@ -37,3 +39,8 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class UserAuthenticationForm(AuthenticationForm):
+    def confirm_login_allowed(self, user):
+        pass
