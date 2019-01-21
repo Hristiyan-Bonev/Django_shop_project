@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import ItemListView, IndexView
+from .views import ItemListView, IndexView, add_to_cart, SignUpView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
-    path('items', ItemListView.as_view(), name='item_list')
+    path('sign_up', SignUpView.as_view(), name='sign-up'),
+    path('items', ItemListView.as_view(), name='item_list'),
+    path('add-to-cart/<int:pk>', add_to_cart, name='add_to_cart')
 ]
 
 if settings.DEBUG:

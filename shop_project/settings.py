@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shop_project.context_processors.SignUpModalForm'
             ],
         },
     },
@@ -124,5 +125,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'images')
 MEDIA_URL = '/images/'
+LOGIN_URL = '/sign_up'
 AUTH_USER_MODEL = 'shop_project.CustomUser'
 CART_SESSION_ID = 'cart'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

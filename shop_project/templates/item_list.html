@@ -2,8 +2,6 @@
 {% load static %}
 
 {% block content %}
-<p>Hello world!</p>
-
 <div class="container">
     <div class="card-deck">
     {% for product in products %}
@@ -54,7 +52,7 @@
                 {{ product.description }}
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Add to Cart</button>
+                <a id="add_to_cart_{{ product.id }}" href="{% url 'add_to_cart' pk=product.id %}" class="btn btn-danger">Add to Cart</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -70,7 +68,7 @@
 
 
 <script>
-    
+    $
 </script>
 
 {% endblock content%}
