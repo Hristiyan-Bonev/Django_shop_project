@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'p@%j+t)5++igdtz+i=kzy227r_mfh=wuf&dtre7k_0$sf*&nx6'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+    # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shop_project'
+    'shop_project',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -121,7 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'item_images/')
-MEDIA_URL = '/item_images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'images')
+MEDIA_URL = '/images/'
 AUTH_USER_MODEL = 'shop_project.CustomUser'
 CART_SESSION_ID = 'cart'

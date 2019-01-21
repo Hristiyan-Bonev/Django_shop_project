@@ -5,10 +5,6 @@ from django.utils.html import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 
-def file_folder(instance, filename):
-    return '{}_{}'.format(instance.name, filename.lower())
-
-
 class CustomUser(AbstractUser):
     first_name = models.CharField(_('first name'), max_length=30)
     email = models.EmailField(_('email address'), max_length=150, unique=True)
@@ -38,20 +34,19 @@ class Item(models.Model):
     description = models.CharField(max_length=255)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     category = models.ManyToManyField(Category)
-    image = models.ImageField(upload_to=file_folder)
+    image = models.ImageField(upload_to='product_images/')
 
     def __str__(self):
         return self.name
 
-    def item_image(self, width=150, height=150):
-        print(self.image.url)
-        import ipdb; ipdb.set_trace()
-        if self.image:
-            return mark_safe('<img src="{}" width="{}" height="{}" />'.format(self.image.url, width, height))
-        else:
-            return 'No image found.'
+    def get_item_image(self, width=150, height=150):
+        return mark_safe('<img src="{}" width="{}" height="{}" />'.format(self.image.url, width, height))
+        #TODO : Add default image
 
-    item_image.short_description = 'Image preview'
+    def get_item_thumbnail(self, width=75, height=75):
+        return mark_safe('<img src="{}" width="{}" height="{}" />'.format(self.image.url, width, height))
+
+    get_item_image.short_description = 'Image preview'
 
 
 class Order(models.Model):
