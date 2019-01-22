@@ -1,9 +1,10 @@
 from .forms import UserCreationForm, UserAuthenticationForm
 from .models import Item, CustomUser
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect, reverse, render
-from django.views.generic import ListView, TemplateView, FormView
 from django.http import HttpResponseRedirect
+from django.views.generic import ListView, TemplateView, FormView
+from django.shortcuts import get_object_or_404, redirect, reverse, render
 
 
 class ItemListView(ListView):
@@ -39,17 +40,10 @@ class SignUpView(FormView):
         return reverse('item_list')
 
 
-class SignInView(FormView):
-    template_name = 'sign_in.html'
-    form_class = UserAuthenticationForm
-
-    def get_success_url(self):
-        return reverse('item_list')
-
 
 @login_required
 def add_to_cart(request, **kwargs):
-    # import ipdb; ipdb.set_trace()
+    import ipdb; ipdb.set_trace()
     user_profile = get_object_or_404(CustomUser, user=request.user)
 
     item = Item.objects.filter(id=kwargs.get('pk', None)).first()

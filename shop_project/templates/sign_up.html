@@ -60,6 +60,7 @@
                           </div>
                       </div>
                       {{ signup_modal_form.delivery_address|as_crispy_field }}
+                      <input type="hidden" name="next" value="{{ next }}">
 
                       <button type="submit" class="btn btn-danger"><i class="fas fa-plus"></i>Create Account</button>
                   </form>
@@ -80,8 +81,9 @@
             data: form.serialize(),
             error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
             success: function() { // on success..
-                $('#success_div').append('Welcome back! :)'); // update the DIV
-                $('#success_div').toggleClass('alert alert-success'); // unhide
+                //$('#success_div').append('Welcome back! :)'); // update the DIV
+                //$('#success_div').toggleClass('alert alert-success'); // unhide
+                location.href = window.location.href
             },
         })
  })

@@ -16,7 +16,7 @@
               {% endfor %}
             </h6>
             <p class="card-text">{{product.description}}</p>
-            <a href="#!" class="btn btn-danger">Add to Cart</a>
+            <a id="add_to_cart_{{ product.id }}" href="{% url 'add_to_cart' pk=product.id %}" class="btn btn-danger">Add to Cart</a>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ItemModal_{{ product.id }}">View product</button>
           </div>
         </div>
@@ -52,7 +52,7 @@
                 {{ product.description }}
               </div>
               <div class="modal-footer">
-                <a id="add_to_cart_{{ product.id }}" href="{% url 'add_to_cart' pk=product.id %}" class="btn btn-danger">Add to Cart</a>
+                <a id="add_to_cart_modal_{{ product.id }}" href="{% url 'add_to_cart' pk=product.id %}" class="btn btn-danger">Add to Cart</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </div>

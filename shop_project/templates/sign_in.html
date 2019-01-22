@@ -33,7 +33,7 @@
                             {{ login_modal_form | crispy}}
                           </div>
                       </div>
-                      <button type="submit" class="btn btn-info float-right">Login<i class="fas fa-chevron-circle-right"></i></button>
+                      <button type="submit" class="btn btn-info float-right">Login<i class="fas fa-chevron-circle-right"></i>
                   </form>
                 </div>
               </div>
@@ -52,8 +52,9 @@
             data: form.serialize(),
             error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
             success: function() { // on success..
-                $('#success_div').append('Account created! Now you can <a href={% url 'sign_in' %}><b>log in</b></a> '); // update the DIV
-                $('#success_div').toggleClass('alert alert-success'); // unhide
+                //$('#success_div').append('Account created! Now you can <a href={% url 'sign_in' %}><b>log in</b></a> '); // update the DIV
+                //$('#success_div').toggleClass('alert alert-success'); // unhide
+                location.href = window.location.href
             },
         })
  })

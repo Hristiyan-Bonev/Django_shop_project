@@ -17,7 +17,7 @@
   </head>
     <header>
          <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Logo</a>
+            <a class="navbar-brand" href="#">E-shop</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -25,12 +25,9 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Home<i class="fas fa-home"></i><span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
                      <a class="nav-link" href="{% url 'item_list' %}">
-                         Products
-                         <i class="fas fa-list-ul"></i>
+                         Home
+                         <i class="fas fa-home"><span class="sr-only">(current)</span></i>
                      </a>
                 </li>
                 <li class="nav-item">
@@ -68,7 +65,7 @@
   <footer class='footer'>
     {% if request.user.is_authenticated %}
     <br/>
-    <strong id='logged_as'>Logged as <i>{{request.user.username}}</i></strong>
+    <strong id='logged_as' style="float:right;">Logged as <i>{{request.user.username}}</i></strong>
     {% endif %}
     <small id='signature'><b><i>Made by Hristiyan Bonev</i></b></small>
   </footer>
