@@ -25,6 +25,10 @@
               <div class="modal-body">
                 <div class="container">
                   <h2>Create account</h2>
+                  <ul class="list-group" id="error_messages">
+
+                  </ul>
+                  </row>
                   <form method="post" autocomplete="off">
                     {% csrf_token %}
                       <div class="form-row">
@@ -80,10 +84,17 @@
             type: 'post',
             data: form.serialize(),
             error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
-            success: function() { // on success..
-                //$('#success_div').append('Welcome back! :)'); // update the DIV
-                //$('#success_div').toggleClass('alert alert-success'); // unhide
-                location.href = window.location.href
+            success: function(data) {
+              if (data['errors']){
+                $('#error_messages_div').css('background-color', 'red');
+                error_list = Object.values(data['errors'])
+                error_list.forEach(function(error){
+                $('#error_messages').append('<li class="list-group-item list-group-item-danger">' + error + '</li>');
+                })
+              }
+              else{
+              location.href = window.location.href;
+            }
             },
         })
  })
