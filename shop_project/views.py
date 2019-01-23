@@ -36,9 +36,21 @@ class SignUpView(FormView):
 
 
 @login_required
+def view_cart(request, **kwargs):
+    pass
+
+@login_required
+def remove_from_cart(request, **kwargs):
+    pass
+
+@login_required
 def add_to_cart(request, **kwargs):
-    import ipdb; ipdb.set_trace()
     user_profile = get_object_or_404(CustomUser, username=request.user.username)
 
     item = Item.objects.filter(id=kwargs.get('pk', None)).first()
+    cart = request.session.get('cart', {})
+    request.session['cart'].append(item.id)
+
+    print(cart)
+    request.session['cart'] = cart
     return redirect(reverse('item_list'))
