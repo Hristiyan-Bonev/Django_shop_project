@@ -65,8 +65,16 @@
                       </div>
                       {{ signup_modal_form.delivery_address|as_crispy_field }}
                       <input type="hidden" name="next" value="{{ next }}">
-
-                      <button type="submit" class="btn btn-danger"><i class="fas fa-plus"></i>Create Account</button>
+                      <div class="form-row">
+                           <div class="form-group col-md-5 mb-0">
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-plus"></i>Create Account</button>
+                           </div>
+                          <div class="form-group col-md-7 mb-0">
+                                <div class="col-md-12 mb-0">Already registered?
+                                    <a href="{% url 'sign_in' %}" data-toggle="modal" data-target="#SignInModal">Sign in</a>
+                                </div>
+                           </div>
+                      </div>
                   </form>
                 </div>
               </div>
@@ -85,8 +93,8 @@
             data: form.serialize(),
             error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
             success: function(data) {
+              $('#error_messages').empty()  // Empty the error_messages div
               if (data['errors']){
-                $('#error_messages_div').css('background-color', 'red');
                 error_list = Object.values(data['errors'])
                 error_list.forEach(function(error){
                 $('#error_messages').append('<li class="list-group-item list-group-item-danger">' + error + '</li>');

@@ -52,22 +52,36 @@
                 {{ product.description }}
               </div>
               <div class="modal-footer">
-                <a id="add_to_cart_modal_{{ product.id }}" href="{% url 'add_to_cart' pk=product.id %}" class="btn btn-danger">Add to Cart</a>
+                <a id="add_to_cart_modal_{{ product.id }}" href="{% url 'add_to_cart' pk=product.id %}" class="btn btn-info">Add to Cart<i class="fas fa-cart-plus"></i></a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
         </div>
-        {% if forloop.counter|divisibleby:3 %}</div> <div class="card-deck">{% endif %}
+        {% if forloop.counter|divisibleby:3 %}</div> <div class="card-deck">{% endif %}  <!-- THREE CARDS PER DECK -->
     {% endfor %}
     </div>
+    {% if is_paginated %}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+                <li class="page-item {% if page_obj.has_previous is False %}disabled{% endif %}">
+                    <a class="page-link" href="/items?page={{ page_obj.number | add:-1 }}" tabindex="-1">Previous</a>
+                </li>
+              {% for page in page_obj.paginator.page_range %}
+                    <li class="page-item"><a class="page-link" href="/items?page={{ page }}">{{ page }}</a></li>
+              {% endfor %}
+                 <li class="page-item {% if page_obj.has_next is False %}disabled{% endif %}">
+                     <a class="page-link" href="/items?page={{ page_obj.number | add:1 }}">Next</a>
+                </li>
+          </ul>
+        </nav>
+    {% endif %}
 </div>
-
-
-
-
-
-<script>
-</script>
+<style>
+ .card:hover{
+   background-color:rgba(166,230,136,0.5);
+   trans
+ }
+</style>
 
 {% endblock content%}
