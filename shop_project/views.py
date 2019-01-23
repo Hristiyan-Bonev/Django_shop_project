@@ -2,7 +2,7 @@ from .forms import UserCreationForm, UserAuthenticationForm
 from .models import Item, CustomUser
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
-from django.views.generic import ListView, TemplateView, FormView
+from django.views.generic import ListView, TemplateView, FormView, View
 from django.shortcuts import get_object_or_404, redirect, reverse, render
 
 
@@ -35,6 +35,15 @@ class SignUpView(FormView):
         return JsonResponse({'errors':form.errors}, safe=False)
 
 
+
+class CheckoutView(View):
+    template_name = 'checkout.html'
+
+    def get(self, request, *args, **kwargs):
+        cart = request.session.get('cart')
+        print(cart)
+        return render(request, self.template_name, context={'cart':cart})
+
 @login_required
 def view_cart(request, **kwargs):
     pass
@@ -49,8 +58,12 @@ def add_to_cart(request, **kwargs):
 
     item = Item.objects.filter(id=kwargs.get('pk', None)).first()
     cart = request.session.get('cart', {})
-    request.session['cart'].append(item.id)
-
+    cart.update({item.name: {
+                'quantity': 1,
+                'name': item.name,
+                'price': str(item.price)
+    }})
+    # TODO: RETURN TOTAL AS WELL
     print(cart)
     request.session['cart'] = cart
     return redirect(reverse('item_list'))
