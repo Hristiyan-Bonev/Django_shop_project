@@ -28,7 +28,7 @@ urlpatterns = [
     path('items', ItemListView.as_view(), name='item_list'),
     path('sign_up', SignUpView.as_view(), name='sign-up'),
     url('logout/', LogoutView.as_view(), name='logout'),
-    url('sign_in', LoginView.as_view(template_name='sign_in.html'),name='sign_in'),
+    url('sign_in', LoginView.as_view(template_name='sign_in.html'), name='sign_in'),
     url('checkout/', CheckoutView.as_view(), name='checkout'),
 ]
 

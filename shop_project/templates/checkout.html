@@ -1,5 +1,57 @@
-<p>Hello world</p>
-{# {% for item in cart %} #}
-<p>{{ cart }}</p>
+{% load crispy_forms_tags %}
 
-{# {% endfor %} #}
+{% block styles %}
+<style>
+.fas{ padding-right:15px}
+}
+.modal{
+    border: 2px solid black;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+ <div class="modal fade" id="CheckoutModal" tabindex="-1" role="dialog" aria-labelledby="CheckoutModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="CheckoutModalLabel">{{ asd }}Check your cart</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                  <ul class="list-group" id="error_messages">
+                  </ul>
+                  <form method="post" autocomplete="off">
+                    {% csrf_token %}
+                            {{cart}}
+                          <div class="form-row">
+                              <div class="form-group col-md-4 mb-0">
+                                {% for form in forms %}} {{ form }}{% endfor %}
+                              </div>
+                              <div class="form-group col-md-4 mb-0">
+                              </div>
+                              <div class="form-group col-md-4 mb-0">
+
+                              </div>
+                          </div>
+
+                      <div class="form-row">
+                          <div class="form-group col-md-6 mb-0">
+                            {{ checkout_form.total_price | as_crispy_field }}
+                          </div>
+                           <div class="form-group col-md-6 mb-0">
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-plus"></i>Checkout</button>
+                           </div>
+                      </div>
+                      <input type="hidden" name="next" value="{{ next }}">
+                </form>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+{% endblock %}

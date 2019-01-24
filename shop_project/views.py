@@ -1,5 +1,6 @@
-from .forms import UserCreationForm, UserAuthenticationForm
+from .forms import UserCreationForm, CheckoutForm
 from .models import Item, CustomUser
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic import ListView, TemplateView, FormView, View
@@ -11,6 +12,7 @@ class ItemListView(ListView):
     template_name = 'item_list.html'
     paginate_by = 7
     context_object_name = 'products'
+
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -35,18 +37,19 @@ class SignUpView(FormView):
         return JsonResponse({'errors':form.errors}, safe=False)
 
 
-
-class CheckoutView(View):
+class CheckoutView(FormView):
     template_name = 'checkout.html'
+    # form_class = CheckoutForm
 
     def get(self, request, *args, **kwargs):
         cart = request.session.get('cart')
-        print(cart)
-        return render(request, self.template_name, context={'cart':cart})
+        forms = [CheckoutForm(initial={'quantity': product['quantity'],
+                                       'name': product['name'],
+                                       'price': product['price']})
+                                        for product in [v for k, v in cart.items() if k != 'total']
+                ]
+        return JsonResponse({'asd':3,'cart': cart, 'forms': forms})
 
-@login_required
-def view_cart(request, **kwargs):
-    pass
 
 @login_required
 def remove_from_cart(request, **kwargs):
@@ -54,16 +57,25 @@ def remove_from_cart(request, **kwargs):
 
 @login_required
 def add_to_cart(request, **kwargs):
-    user_profile = get_object_or_404(CustomUser, username=request.user.username)
+    item = Item.objects.filter(id=kwargs.pop('pk', None)).first()
+    cart = request.session.get('cart', {'total': 0})
 
-    item = Item.objects.filter(id=kwargs.get('pk', None)).first()
-    cart = request.session.get('cart', {})
-    cart.update({item.name: {
-                'quantity': 1,
-                'name': item.name,
-                'price': str(item.price)
-    }})
-    # TODO: RETURN TOTAL AS WELL
-    print(cart)
+    if cart.get(item.name, False):
+        # Increase quantity of item if already exist.
+        cart[item.name]['quantity'] += 1
+    else:
+        # Add item in cart
+        cart.update({item.name: {
+                    'quantity': 1,
+                    'name': item.name,
+                    'price': str(item.price)
+                    }
+        })
+    cart['total'] += float(item.price)
     request.session['cart'] = cart
-    return redirect(reverse('item_list'))
+    request.session['item'] = {'name': item.name,
+                               'image': item.image.url}
+    print(cart)
+    messages.success(request, 'Item added to cart.')
+    print(messages)
+    return HttpResponseRedirect('/items')

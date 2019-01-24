@@ -52,7 +52,9 @@
                 {{ product.description }}
               </div>
               <div class="modal-footer">
-                <a id="add_to_cart_modal_{{ product.id }}" href="{% url 'add_to_cart' pk=product.id %}" class="btn btn-info">Add to Cart<i class="fas fa-cart-plus"></i></a>
+                <button id="add_to_cart_modal_{{ product.id }}" class="btn btn-info add_button">
+                    Add to Cart<i class="fas fa-cart-plus"></i>
+                </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </div>

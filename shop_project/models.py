@@ -31,6 +31,7 @@ class Category(models.Model):
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
+    quantity = models.IntegerField()
     description = models.CharField(max_length=255)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     category = models.ManyToManyField(Category)
