@@ -1,7 +1,8 @@
-from .forms import UserCreationForm, CheckoutForm
+from .forms import UserCreationForm, CheckoutItemForm
 from .models import Item, CustomUser
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.forms import formset_factory
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic import ListView, TemplateView, FormView, View
 from django.shortcuts import get_object_or_404, redirect, reverse, render
@@ -10,7 +11,7 @@ from django.shortcuts import get_object_or_404, redirect, reverse, render
 class ItemListView(ListView):
     model = Item
     template_name = 'item_list.html'
-    paginate_by = 7
+    paginate_by = 3
     context_object_name = 'products'
 
 
@@ -39,16 +40,22 @@ class SignUpView(FormView):
 
 class CheckoutView(FormView):
     template_name = 'checkout.html'
-    # form_class = CheckoutForm
+    # form_class = CheckoutItemForm
 
     def get(self, request, *args, **kwargs):
         cart = request.session.get('cart')
-        forms = [CheckoutForm(initial={'quantity': product['quantity'],
-                                       'name': product['name'],
-                                       'price': product['price']})
-                                        for product in [v for k, v in cart.items() if k != 'total']
-                ]
-        return JsonResponse({'asd':3,'cart': cart, 'forms': forms})
+        print('ASDASD')
+
+        CheckoutItemFormSet = formset_factory(CheckoutItemForm, extra=0)
+
+        checkout_item_formset = CheckoutItemFormSet(initial=[{'quantity': product['quantity'],
+                                                             'name': product['name'],
+                                                             'price': product['price']}
+                                    for product in [v for k, v in cart.items() if k != 'total']],
+                                                    )
+        
+        return render(request, self.template_name, {'cart': cart, 'forms': checkout_item_formset})
+
 
 
 @login_required
@@ -58,7 +65,7 @@ def remove_from_cart(request, **kwargs):
 @login_required
 def add_to_cart(request, **kwargs):
     item = Item.objects.filter(id=kwargs.pop('pk', None)).first()
-    cart = request.session.get('cart', {'total': 0})
+    cart = request.session.get('cart', dict({'total': 0}))
 
     if cart.get(item.name, False):
         # Increase quantity of item if already exist.

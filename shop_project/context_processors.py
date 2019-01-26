@@ -1,4 +1,4 @@
-from .forms import UserCreationForm, UserAuthenticationForm, CheckoutForm
+from .forms import UserCreationForm, UserAuthenticationForm, CheckoutItemForm
 
 def SignUpModalForm(request):
     '''
@@ -7,5 +7,5 @@ def SignUpModalForm(request):
     return {
         'signup_modal_form': UserCreationForm(),
         'login_modal_form': UserAuthenticationForm(),
-        'checkout_form': CheckoutForm(request.session.get('cart'))
+        'checkout_form': CheckoutItemForm(request.session.get('cart'))
     }

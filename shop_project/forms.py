@@ -48,12 +48,7 @@ class UserAuthenticationForm(AuthenticationForm):
         pass
 
 
-class CheckoutForm(forms.ModelForm):
-
-    total_price = forms.CharField(
-        widget=forms.TextInput(attrs={'readonly': 'readonly'})
-    )
-
-    class Meta:
-        model = Order
-        fields = ['order_items','total_price']
+class CheckoutItemForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(), label= "Item name")
+    quantity = forms.CharField(widget=forms.TextInput(), label="Order quantity")
+    price = forms.CharField(widget=forms.TextInput({'readonly':True}), label="Price per item")
