@@ -44,17 +44,10 @@ class CheckoutView(FormView):
 
     def get(self, request, *args, **kwargs):
         cart = request.session.get('cart')
-        print('ASDASD')
-
-        CheckoutItemFormSet = formset_factory(CheckoutItemForm, extra=0)
-
-        checkout_item_formset = CheckoutItemFormSet(initial=[{'quantity': product['quantity'],
-                                                             'name': product['name'],
-                                                             'price': product['price']}
-                                    for product in [v for k, v in cart.items() if k != 'total']],
-                                                    )
+        # Get total price
+        total_price = round(float(cart.pop('total', 0)), 2)
         
-        return render(request, self.template_name, {'cart': cart, 'forms': checkout_item_formset})
+        return render(request, self.template_name, {'cart': cart, 'total_price': total_price})
 
 
 
