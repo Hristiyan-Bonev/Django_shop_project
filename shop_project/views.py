@@ -46,7 +46,7 @@ class CheckoutView(FormView):
         cart = request.session.get('cart')
         # Get total price
         total_price = round(float(cart.pop('total', 0)), 2)
-        
+
         return render(request, self.template_name, {'cart': cart, 'total_price': total_price})
 
 
